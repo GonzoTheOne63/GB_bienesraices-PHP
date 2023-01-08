@@ -1,0 +1,4 @@
+## Archivos que serán ignorados
+
+node_modules/
+package-lock.json
