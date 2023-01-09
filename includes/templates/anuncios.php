@@ -19,8 +19,8 @@ $resultado = mysqli_query($db, $query);
       </picture>
 
       <div class="contenido-anuncio contenido-centrado">
-        <h3><?php echo limitar_cadena($propiedad['titulo'], 40, "..."); ?></h3>
-        <p class="parrafo"><?php echo limitar_cadena($propiedad['descripcion'], 65, "..."); ?></p>
+        <h3><?php echo limitar_cadena($propiedad['titulo'], 15, "..."); ?></h3>
+        <p class="parrafo"><?php echo limitar_cadena($propiedad['descripcion'], 55, "..."); ?></p>
         <p class="precio">$<?php echo $propiedad['precio']; ?></p>
 
         <ul class="iconos-caracteristicas">

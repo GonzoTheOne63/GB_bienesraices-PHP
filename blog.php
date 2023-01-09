@@ -1,6 +1,6 @@
 <?php
-$inicio = false;
-include './includes/templates/header.php';  /* /includes/templates/header.php */
+require 'includes/funciones.php';
+incluirTemplate('header');
 ?>
 
 <main class="contenedor seccion contenido-centrado">
@@ -16,7 +16,7 @@ include './includes/templates/header.php';  /* /includes/templates/header.php */
         </div>
 
         <div class="texto-entrada">
-            <a href="entrada.html">
+            <a href="entrada.php">
                 <h4>Terraza en el techo de tu casa</h4>
                 <p>Escrito el: <span>20/10/2021</span> por: <span>Admin</span> </p>
 
@@ -38,7 +38,7 @@ include './includes/templates/header.php';  /* /includes/templates/header.php */
         </div>
 
         <div class="texto-entrada">
-            <a href="entrada.html">
+            <a href="entrada.php">
                 <h4>Guía para la decoración de tu hogar</h4>
                 <p>Escrito el: <span>20/10/2021</span> por: <span>Admin</span> </p>
 
@@ -60,7 +60,7 @@ include './includes/templates/header.php';  /* /includes/templates/header.php */
         </div>
 
         <div class="texto-entrada">
-            <a href="entrada.html">
+            <a href="entrada.php">
                 <h4>Terraza en el techo de tu casa</h4>
                 <p>Escrito el: <span>20/10/2021</span> por: <span>Admin</span> </p>
 
@@ -82,7 +82,7 @@ include './includes/templates/header.php';  /* /includes/templates/header.php */
         </div>
 
         <div class="texto-entrada">
-            <a href="entrada.html">
+            <a href="entrada.php">
                 <h4>Guía para la decoración de tu hogar</h4>
                 <p>Escrito el: <span>20/10/2021</span> por: <span>Admin</span> </p>
 
@@ -95,20 +95,6 @@ include './includes/templates/header.php';  /* /includes/templates/header.php */
     </article>
 </main>
 
-<footer class="footer seccion">
-    <div class="contenedor contenedor-footer">
-        <nav class="navegacion">
-            <a href="nosotros.html">Nosotros</a>
-            <a href="anuncios.html">Anuncios</a>
-            <a href="blog.html">Blog</a>
-            <a href="contacto.html">Contacto</a>
-        </nav>
-    </div>
-
-    <p class="copyright">Todos los derechos Reservados 2021 &copy;</p>
-</footer>
-
-<script src="build/js/bundle.min.js"></script>
-</body>
-
-</html>
+<?php
+incluirTemplate("footer");
+?>

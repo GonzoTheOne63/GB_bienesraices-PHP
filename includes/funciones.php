@@ -3,8 +3,9 @@
 require 'app.php';
 
 function incluirTemplate( string $nombre, bool $inicio = false ) {
+  // echo TEMPLATES_URL . "/${nombre}.php";  // IMPRIME la ruta completa                                                                                                                                                                                                                                      
   include TEMPLATES_URL . "/${nombre}.php";
-}
+}                                                                           
 function limitar_cadena($cadena, $limite, $sufijo)
 {
   // Si la longitud es mayor que el límite...
@@ -26,3 +27,5 @@ function estaAutenticado() : bool {
   } 
     return false;
   }
+
+  /* SIN cierre de php */
