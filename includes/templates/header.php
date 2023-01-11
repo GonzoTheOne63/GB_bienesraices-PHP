@@ -1,12 +1,3 @@
-<?php
-
-if (!isset($_SESSION)) {
-    session_start();
-}
-$auth = $_SESSION['login'] ?? false;
-//var_dump($auth); // Para revisar que los datos e envian
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +5,7 @@ $auth = $_SESSION['login'] ?? false;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienes Raices GB</title>
-    <link rel="stylesheet" href="/build/css/app.css"> <!-- /build/css/app.css -->
+    <link rel="stylesheet" href="/build/css/app.css">
 </head>
 
 <body>
@@ -22,12 +13,12 @@ $auth = $_SESSION['login'] ?? false;
         <!-- Igual a un if y else pero en una sola línea -->
         <div class="contenedor contenido-header">
             <div class="barra">
-                <a href="/GB_bienesraices-PHP">
+                <a href="/"> <!-- GB_bienesraices-PHP -->
                     <img class="logotipo" src="/build/img/logo.svg" alt="Logotipo de Bienes Raices">
                 </a>
 
                 <div class="mobile-menu">
-                    <img src="build/img/barras.svg" alt="icono menu responsive">
+                    <img src="/build/img/barras.svg" alt="icono menu responsive">
                 </div>
 
                 <div class="derecha">
@@ -37,9 +28,7 @@ $auth = $_SESSION['login'] ?? false;
                         <a href="anuncios.php">Anuncios</a>
                         <a href="blog.php">Blog</a>
                         <a href="contacto.php">Contacto</a>
-                        <?php if ($auth) : ?>
-                            <a href="cerrar-sesion.php">Cerrar Sesión</a>
-                        <?php endif; ?>
+
                     </nav>
                 </div>
             </div> <!-- Barra -->

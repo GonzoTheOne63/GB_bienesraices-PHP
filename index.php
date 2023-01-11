@@ -1,7 +1,7 @@
 <?php
-declare(strict_types = 1);
-require 'includes/funciones.php';
-incluirTemplate('header', $inicio = true);
+    declare(strict_types = 1);
+    require 'includes/funciones.php';
+    incluirTemplate('header', $inicio = true);
 ?>
 
 <main class="contenedor seccion">
@@ -239,5 +239,5 @@ incluirTemplate('header', $inicio = true);
 </div>
 
 <?php
-incluirTemplate("footer");
+    incluirTemplate("footer");
 ?>
