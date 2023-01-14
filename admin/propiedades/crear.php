@@ -16,12 +16,29 @@ $db = conectarDB();
 // echo "</pre>";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    echo "<pre>";
-    var_dump($_POST); // SEGURO, no muestra los datos
-    echo "</pre>";
+    // echo "<pre>";
+    // var_dump($_POST); // SEGURO, no muestra los datos
+    // echo "</pre>";
 
     $titulo = $_POST['titulo'];
     $precio = $_POST['precio'];
+    // $imagen = $_POST['imagen'];
+    $descripcion = $_POST['descripcion'];
+    $habitaciones = $_POST['habitaciones'];
+    $wc = $_POST['wc'];
+    $estacionamiento = $_POST['estacionamiento'];
+    $vendedorId = $_POST['vendedor'];
+
+    // GENERANDO variable para la inserción a la BD
+    $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId) VALUES ( '$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$vendedorId' ) "; 
+
+    // echo $query;  // GENERA el query que puedo insertar a tableplus
+    // GUARDAR en la BD
+    $resultado = mysqli_query($db, $query);
+
+    if($resultado) {
+        echo "Inserción correcta";
+    }
 }
 
 require '../../includes/funciones.php';
@@ -62,7 +79,7 @@ incluirTemplate('header');
 
         <fieldset>
             <legend>Vendedor</legend>
-            <select name="" id="">
+            <select name="vendedor" id="">
                 <option value="1">Goin</option>
                 <option value="2">Maggy</option>
             </select>
