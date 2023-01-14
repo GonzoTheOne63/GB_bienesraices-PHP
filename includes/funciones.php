@@ -2,12 +2,11 @@
 
 require 'app.php';
 
-function incluirTemplate( string $nombre, bool $inicio = false ) {
+function incluirTemplate(string $nombre, bool $inicio = false) {
   // echo TEMPLATES_URL . "/${nombre}.php";  // IMPRIME la ruta completa                                                                                                                                                                                                                                      
   include TEMPLATES_URL . "/${nombre}.php";
-}                                                                           
-function limitar_cadena($cadena, $limite, $sufijo)
-{
+}
+function limitar_cadena($cadena, $limite, $sufijo) {
   // Si la longitud es mayor que el límite...
   if (strlen($cadena) > $limite) {
     // Entonces corta la cadena y ponle el sufijo
@@ -18,14 +17,15 @@ function limitar_cadena($cadena, $limite, $sufijo)
 }
 
 // Verifica que el usuario esté autenticado
-function estaAutenticado() : bool { 
+function estaAutenticado(): bool {
   session_start();
 
   $auth = $_SESSION['login'];
-  if($auth) {
+  if ($auth) {
     return true;
-  } 
-    return false;
   }
+  return false;
+}
+
 
   /* SIN cierre de php */
