@@ -15,6 +15,11 @@ $db = conectarDB();
 // var_dump($_SERVER["REQUEST_METHOD"]); // MUESTRA la información del servidor -> más el software de desarrollo
 // echo "</pre>";
 
+/* VALIDADOR array con mensajes de errores*/
+$errores = [];
+
+
+/* EJECUTAR el código después de que el usuario envía el formulario */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // echo "<pre>";
     // var_dump($_POST); // SEGURO, no muestra los datos
@@ -29,17 +34,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $estacionamiento = $_POST['estacionamiento'];
     $vendedorId = $_POST['vendedor'];
 
-    // GENERANDO variable para la inserción a la BD
-    $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId) VALUES ( '$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$vendedorId' ) "; 
+    if (!$titulo) {
+        $errores[] = "Añade el título de tu propiedad";
+    }
+    if (!$precio) {
+        $errores[] = "Falta el precio";
+    }
+    if (strlen($descripcion) < 50) {
+        $errores[] = "Dinos más sobre la propiedad, no menos de 50 caracteres";
+    }
+    if (!$habitaciones) {
+        $errores[] = "El número de habitaciones es obligatorio";
+    }
+    if (!$wc) {
+        $errores[] = "El número de baños es obligatorio";
+    }
+    if (!$estacionamiento) {
+        $errores[] = "El número de estacionamientos es obligatorio";
+    }
+    if (!$vendedorId) {
+        $errores[] = "Elige a tu vendedor";
+    }
+    // echo "<pre>";
+    // var_dump($errores);
+    // echo "</pre>";
 
-    // echo $query;  // GENERA el query que puedo insertar a tableplus
-    // GUARDAR en la BD
-    $resultado = mysqli_query($db, $query);
+    // exit;   // EVITA la ejecución del código
 
-    if($resultado) {
-        echo "Inserción correcta";
+    /* REVISAR que el array de errores esté vacio */
+    if (empty($errores)) {
+        // GENERANDO variable para la inserción a la BD
+        $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId) VALUES ( '$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$vendedorId' ) ";
+
+        // echo $query;  // GENERA el query que puedo insertar a tableplus
+        // GUARDAR en la BD
+        $resultado = mysqli_query($db, $query);
+
+        if ($resultado) {
+            echo "Inserción correcta";
+        }
     }
 }
+
+
 
 require '../../includes/funciones.php';
 incluirTemplate('header');
@@ -47,7 +84,14 @@ incluirTemplate('header');
 
 <main class="contenedor seccion">
     <h1>Crear Propiedad</h1>
+
     <a href="/admin/admin.php" class="boton boton-verde">Clic Volver</a>
+
+    <?php foreach ($errores as $error) : ?> <!-- foreach se ejecuta una vez por cada elemento -->
+        <div class="alerta error">
+            <?php echo $error; ?>
+        </div>
+    <?php endforeach; ?>
     <form action="/admin/propiedades/crear.php" class="formulario" method="POST">
         <!--  -->
         <fieldset>
@@ -79,7 +123,9 @@ incluirTemplate('header');
 
         <fieldset>
             <legend>Vendedor</legend>
+
             <select name="vendedor" id="">
+                <option value="">-- Seleccione-- </option>
                 <option value="1">Goin</option>
                 <option value="2">Maggy</option>
             </select>

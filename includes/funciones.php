@@ -17,15 +17,18 @@ function limitar_cadena($cadena, $limite, $sufijo) {
 }
 
 // Verifica que el usuario esté autenticado
-function estaAutenticado(): bool {
+function estaAutenticado() : bool {
   session_start();
 
-  $auth = $_SESSION['login'];
-  if ($auth) {
-    return true;
+  if (!$_SESSION['login']) {
+    header('Location: /');
   }
-  return false;
 }
 
-
+function debug($variable) {
+    echo "<pre>";
+    var_dump($variable);
+    echo "</pre>";
+    exit;
+}
   /* SIN cierre de php */

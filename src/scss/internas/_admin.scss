@@ -4,7 +4,9 @@
   color: $blanco;
   font-weight: $bold;
   text-transform: uppercase;
-  margin: 1rem 0;
+  margin: .5rem auto;
+  border-radius: .5rem;
+  width: 90%;  
   &.error {
     background-color: $rojo;
   }
