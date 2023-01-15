@@ -18,6 +18,14 @@ $db = conectarDB();
 /* VALIDADOR array con mensajes de errores*/
 $errores = [];
 
+$titulo = '';
+$precio = '';
+// $imagen = '';
+$descripcion = '';
+$habitaciones = '';
+$wc = '';
+$estacionamiento = '';
+$vendedorId = '';
 
 /* EJECUTAR el código después de que el usuario envía el formulario */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -85,40 +93,70 @@ incluirTemplate('header');
 <main class="contenedor seccion">
     <h1>Crear Propiedad</h1>
 
-    <a href="/admin/admin.php" class="boton boton-verde">Clic Volver</a>
+    <a href="/admin/admin.php" 
+        class="boton boton-verde">Clic Volver</a>
 
     <?php foreach ($errores as $error) : ?> <!-- foreach se ejecuta una vez por cada elemento -->
         <div class="alerta error">
             <?php echo $error; ?>
         </div>
     <?php endforeach; ?>
-    <form action="/admin/propiedades/crear.php" class="formulario" method="POST">
+    <form action="/admin/propiedades/crear.php" 
+        class="formulario" 
+        method="POST">
         <!--  -->
         <fieldset>
             <legend>Información General</legend>
             <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" placeholder="Título de la Propiedad">
+            <input type="text" 
+            id="titulo" 
+            name="titulo" 
+            placeholder="Título de la Propiedad" 
+            value="<?php echo $titulo; ?>">
 
             <label for="precio">Precio:</label>
-            <input type="number" id="precio" name="precio" placeholder="Precio de la Propiedad">
+            <input type="number" 
+            id="precio" 
+            name="precio" 
+            placeholder="Precio de la Propiedad" 
+            value="<?php echo $precio; ?>">
 
             <label for="imagen">Imagen:</label el>
-            <input type="file" id="imagen" accept="image/jpeg, image/png">
+            <input type="file" 
+            id="imagen" 
+            accept="image/jpeg, image/png">
 
             <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" name="descripcion" placeholder="Tus Comentarios son de gran Valor"></textarea>
+            <textarea id="descripcion" 
+            name="descripcion" 
+            placeholder="Tus Comentarios son de gran Valor"><?php echo $descripcion; ?></textarea>
         </fieldset>
 
         <fieldset>
             <legend>Información de la Propiedad</legend>
             <label for="habitaciones">Habitaciones:</label>
-            <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej. 3">
+            <input type="number" 
+            id="habitaciones" 
+            name="habitaciones" 
+            placeholder="Ej. 3" 
+            value="<?php echo $habitaciones; ?>">
 
             <label for="wc">Baños:</label>
-            <input type="number" id="wc" name="wc" placeholder="Ej. 3" min="1" max="10">
+            <input type="number" 
+            id="wc" name="wc"
+            placeholder="Ej. 3" 
+            min="1" 
+            max="10" 
+            value="<?php echo $wc; ?>">
 
             <label for="estacionamiento">Estacionamientos:</label>
-            <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej. 3" min="1" max="10">
+            <input type="number" 
+            id="estacionamiento" 
+            name="estacionamiento" 
+            placeholder="Ej. 3" 
+            min="1" 
+            max="10" 
+            value="<?php echo $estacionamiento; ?>">
         </fieldset>
 
         <fieldset>
