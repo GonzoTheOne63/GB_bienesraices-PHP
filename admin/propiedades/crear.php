@@ -37,14 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // var_dump($_POST); // SEGURO, no muestra los datos
     // echo "</pre>";
 
-    $titulo = $_POST['titulo'];
-    $precio = $_POST['precio'];
-    // $imagen = $_POST['imagen'];
-    $descripcion = $_POST['descripcion'];
-    $habitaciones = $_POST['habitaciones'];
-    $wc = $_POST['wc'];
-    $estacionamiento = $_POST['estacionamiento'];
-    $vendedorId = $_POST['vendedor'];
+    $titulo = mysqli_real_scape_string($db, $_POST['titulo']);
+    $precio = mysqli_real_scape_string($db, $_POST['precio']);
+    // $imagen = mysqli_real_scape_string($db, $_POST['imagen']);
+    $descripcion = mysqli_real_scape_string($db, $_POST['descripcion']);
+    $habitaciones = mysqli_real_scape_string($db, $_POST['habitaciones']);
+    $wc = mysqli_real_scape_string($db, $_POST['wc']);
+    $estacionamiento = mysqli_real_scape_string($db, $_POST['estacionamiento']);
+    $vendedorId = mysqli_real_scape_string($db, $_POST['vendedor']);
     $creado = date('Y,m,d');
 
     if (!$titulo) {
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($resultado) {
             // echo "Inserción correcta";
             // REDIRECCIONAR al insertar correctamente
-            header('Location: /admin');
+            header('Location: /admin/admin.php');
         }
     }
 }
