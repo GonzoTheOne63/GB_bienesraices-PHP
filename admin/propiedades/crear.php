@@ -37,16 +37,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // var_dump($_POST); // SEGURO, no muestra los datos
     // echo "</pre>";
 
-    $titulo = mysqli_real_scape_string($db, $_POST['titulo']);
-    $precio = mysqli_real_scape_string($db, $_POST['precio']);
-    // $imagen = mysqli_real_scape_string($db, $_POST['imagen']);
-    $descripcion = mysqli_real_scape_string($db, $_POST['descripcion']);
-    $habitaciones = mysqli_real_scape_string($db, $_POST['habitaciones']);
-    $wc = mysqli_real_scape_string($db, $_POST['wc']);
-    $estacionamiento = mysqli_real_scape_string($db, $_POST['estacionamiento']);
-    $vendedorId = mysqli_real_scape_string($db, $_POST['vendedor']);
+    // echo "<pre>";
+    // var_dump($_FILES); // SEGURO, no muestra los datos
+    // echo "</pre>";
+    // exit;
+
+    $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
+    $precio = mysqli_real_escape_string($db, $_POST['precio']);
+    // $imagen = mysqli_real_escape_string($db, $_POST['imagen']);
+    $descripcion = mysqli_real_escape_string($db, $_POST['descripcion']);
+    $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones']);
+    $wc = mysqli_real_escape_string($db, $_POST['wc']);
+    $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento']);
+    $vendedorId = mysqli_real_escape_string($db, $_POST['vendedor']);
     $creado = date('Y,m,d');
 
+    // ASIGNAR "files" hacia una variable
+    // $imagen = $_FILES['imagen'];
+    // echo "<pre>";
+    // var_dump($imagen['name']);
+    // echo "</pre>";    
+    // exit;
+
+    $imagen = $_FILES['imagen'];
+    var_dump($imagen['name']);
+    exit;
+    
     if (!$titulo) {
         $errores[] = "Añade el título de tu propiedad";
     }
@@ -68,6 +84,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$vendedorId) {
         $errores[] = "Elige a tu vendedor";
     }
+    if (!$imagen['name'] || $imagen['error']) {
+        $errores[] = "La imagen es obligatoria";
+    }
+
+    // VALIDAR por tamaño (1000 Kb máximo)
+    $medida = 1000 * 1000;
+    if ($imagen['size'] > $medida) {
+        $errores = 'La imagen es muy pesada';
+    }
+    
     // echo "<pre>";
     // var_dump($errores);
     // echo "</pre>";
@@ -91,8 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
-
 require '../../includes/funciones.php';
 incluirTemplate('header');
 ?>
@@ -108,7 +132,7 @@ incluirTemplate('header');
         <?php echo $error; ?>
     </div>
     <?php endforeach; ?>
-    <form action="/admin/propiedades/crear.php" class="formulario" method="POST">
+    <form action="/admin/propiedades/crear.php" class="formulario" method="POST" enctype="multipart/form-data">
         <!--  -->
         <fieldset>
             <legend>Información General</legend>
@@ -121,7 +145,7 @@ incluirTemplate('header');
                 value="<?php echo $precio; ?>">
 
             <label for="imagen">Imagen:</label el>
-            <input type="file" id="imagen" accept="image/jpeg, image/png">
+            <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
 
             <label for="descripcion">Descripción:</label>
             <textarea id="descripcion" name="descripcion"
