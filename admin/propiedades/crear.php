@@ -24,7 +24,6 @@ $errores = [];
 
 $titulo = '';
 $precio = '';
-// $imagen = '';
 $descripcion = '';
 $habitaciones = '';
 $wc = '';
@@ -44,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
     $precio = mysqli_real_escape_string($db, $_POST['precio']);
-    // $imagen = mysqli_real_escape_string($db, $_POST['imagen']);
     $descripcion = mysqli_real_escape_string($db, $_POST['descripcion']);
     $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones']);
     $wc = mysqli_real_escape_string($db, $_POST['wc']);
@@ -52,17 +50,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $vendedorId = mysqli_real_escape_string($db, $_POST['vendedor']);
     $creado = date('Y,m,d');
 
-    // ASIGNAR "files" hacia una variable
-    // $imagen = $_FILES['imagen'];
+    // [ASIGNAR "files" hacia una variable]
+    $imagen = $_FILES['imagen'];
     // echo "<pre>";
     // var_dump($imagen['name']);
     // echo "</pre>";    
     // exit;
 
-    $imagen = $_FILES['imagen'];
-    var_dump($imagen['name']);
-    exit;
-    
+    // $imagen = $_FILES['imagen'];
+    // var_dump($imagen['name']);
+    // exit;
+
     if (!$titulo) {
         $errores[] = "Añade el título de tu propiedad";
     }
@@ -88,12 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errores[] = "La imagen es obligatoria";
     }
 
-    // VALIDAR por tamaño (1000 Kb máximo)
+    // {VALIDAR} por tamaño (1 Mb máximo)
     $medida = 1000 * 1000;
     if ($imagen['size'] > $medida) {
         $errores = 'La imagen es muy pesada';
     }
-    
+
     // echo "<pre>";
     // var_dump($errores);
     // echo "</pre>";
@@ -102,6 +100,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     /* REVISAR que el array de errores esté vacio */
     if (empty($errores)) {
+        /* SUBIDA DE aRCHIVOS */
+        /* CREAR la carpeta */
+        $carpetaImagenes = '../../imagenes';
+
+        if (!is_dir($carpetaImagenes)) {
+            mkdir($carpetaImagenes);
+        }
+        /* SUBIR la imagen */
+        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . "/archivo.jpg");
+        
+        exit;
+
         // GENERANDO variable para la inserción a la BD
         $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedorId' ) ";
 
