@@ -19,7 +19,7 @@ $resultado = mysqli_query($db, $consulta);
 // var_dump($_SERVER["REQUEST_METHOD"]); // MUESTRA la información del servidor -> más el software de desarrollo
 // echo "</pre>";
 
-/* VALIDADOR array con mensajes de errores*/
+/* {VALIDADOR} array con mensajes de errores*/
 $errores = [];
 
 $titulo = '';
@@ -30,7 +30,7 @@ $wc = '';
 $estacionamiento = '';
 $vendedorId = '';
 
-/* EJECUTAR el código después de que el usuario envía el formulario */
+/* {EJECUTAR} el código después de que el usuario envía el formulario */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // echo "<pre>";
     // var_dump($_POST); // SEGURO, no muestra los datos
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $vendedorId = mysqli_real_escape_string($db, $_POST['vendedor']);
     $creado = date('Y,m,d');
 
-    // [ASIGNAR "files" hacia una variable]
+    // {ASIGNAR} "files" hacia una variable
     $imagen = $_FILES['imagen'];
     // echo "<pre>";
     // var_dump($imagen['name']);
@@ -98,30 +98,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // exit;   // EVITA la ejecución del código
 
-    /* REVISAR que el array de errores esté vacio */
+    /* {REVISAR} que el array de errores esté vacio, no tenga errores */
     if (empty($errores)) {
         /* SUBIDA DE aRCHIVOS */
         /* CREAR la carpeta */
-        $carpetaImagenes = '../../imagenes';
+        $carpetaImagenes = '../../imagenes/';
 
         if (!is_dir($carpetaImagenes)) {
             mkdir($carpetaImagenes);
         }
-        /* SUBIR la imagen */
-        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . "/archivo.jpg");
+
+        /* {GENERAR} un nombre único */
+        $nombreImagen = md5(uniqid(rand(), true)) . strrchr($_FILES['imagen']['name'], '.');
+        // var_dump($nombreImagen);
         
-        exit;
+        /* SUBIR la imagen */
+        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);        
+        // exit;
 
         // GENERANDO variable para la inserción a la BD
-        $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedorId' ) ";
+        $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedorId' ) ";
 
         // echo $query;  // GENERA el query que puedo insertar a tableplus
         // GUARDAR en la BD
         $resultado = mysqli_query($db, $query);
 
         if ($resultado) {
-            // echo "Inserción correcta";
-            // REDIRECCIONAR al insertar correctamente
+            // Redireccionar al usuario.
             header('Location: /admin/admin.php');
         }
     }
