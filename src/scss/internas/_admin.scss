@@ -18,22 +18,36 @@
 table.propiedades {
   margin-top: 4rem;
   width: 100%;
-  border-spacing: 0;
+  border-spacing: 0;  
   
-
+      td {
+          text-align: center;
+          font-weight: $bold;
+          font-size: 2.5rem; 
+                           
+      }
   thead {
     background-color: $verde;
 
     th {
       color: $blanco;
       padding: 2rem;
-          }
+    }
+    tr {
+      border-radius: 5rem;
+    }
+          
   }
   .imagen-tabla {
-    width: 10rem;
+    width: 10rem;    
   }
+   .costo {
+          color: $verde;
+          font-size: 3rem;
+          font-weight: $bold;
+          }
 }
 
-.imagen-small {
-  width: 20rem;
-}
+// .imagen-small {
+//   width: 20rem;
+// }
