@@ -1,11 +1,22 @@
 <?php
+/*  {IMPORTAR} la conexión */
+require '../includes/config/database.php';
+$db = conectarDB();
+
+/*  {ESCRIBIR} el QUERY */
+$query  = "SELECT * FROM propiedades";
+
+/*  {CONSULTAR} la BD */
+$resultadoConsulta = mysqli_query($db, $query);
 
 // echo "<pre>";
 // var_dump($_GET);
 // echo "</pre>";
+/* {MUESTRA} mensaje condicional */
 $resultado = $_GET['resultado'] ?? null;
 // exit;
 
+/* {INCLUYE} en TEMPLATE */
 require '../includes/funciones.php';
 incluirTemplate('header');
 ?>
@@ -13,7 +24,7 @@ incluirTemplate('header');
 <main class="contenedor seccion">
     <h1>Administrador de Propiedades</h1>
     <?php if (intval($resultado) === 1) : ?>
-    <p class="alerta exito">Anuncio Creado Correctamente</p>
+        <p class="alerta exito">Anuncio Creado Correctamente</p>
     <?php endif; ?>
     <a href="/admin/propiedades/crear.php" class="boton boton-verde">Nueva Propiedad</a>
     <table class="propiedades">
@@ -28,20 +39,26 @@ incluirTemplate('header');
         </thead>
 
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Casa en la playa</td>
-                <td> <img src="/imagenes/1a325d92b810ebb8eae05df8b21b3c81.jpg" class="imagen-tabla">
-                <td class="costo">$1200000</td>
-                <td>
-                    <a href="#" class="boton-rojo-block">Eliminar</a>
-                    <a href="#" class="boton-amarillo-block">Actualizar</a>
-                </td>
-            </tr>
+            <!-- {MOSTRAR} los resultados  -->
+            <?php while ($propiedad = mysqli_fetch_assoc($resultadoConsulta)) : ?>
+                <tr>
+                    <td><?php echo $propiedad['id']; ?></td>
+                    <td><?php echo $propiedad['titulo']; ?></td>
+                    <td> <img src="/imagenes/<?php echo $propiedad['imagen']; ?>" class="imagen-tabla">
+                    <td class="costo">$<?php echo number_format($propiedad['precio']); ?></td>
+                    <td>
+                        <a href="#" class="boton-rojo-block">Eliminar</a>
+                        <a href="#" class="boton-amarillo-block">Actualizar</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
         </tbody>
     </table>
 </main>
 
 <?php
+/* {CERRAR} la BD */    
+mysqli_close($db);
+
 incluirTemplate("footer");
 ?>

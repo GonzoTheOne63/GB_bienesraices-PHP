@@ -39,12 +39,13 @@ table.propiedades {
           
   }
   .imagen-tabla {
-    width: 10rem;    
+    width: 15rem;    
   }
    .costo {
           color: $verde;
           font-size: 3rem;
           font-weight: $bold;
+          text-align: center;
           }
 }
 

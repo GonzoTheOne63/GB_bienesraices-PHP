@@ -44,6 +44,10 @@
         }
     }
   table.propiedades {
+    .costo{
+        color: $verde;
+        font-weight: $bold;
+    }
         tbody {
             td {
                 color: $blanco;
