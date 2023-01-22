@@ -2,6 +2,10 @@
 
 node_modules/
 package-lock.json
+<<<<<<< Updated upstream
 /info.php
 /node_modules
 /package-lock.json
+=======
+/info.php
+>>>>>>> Stashed changes
