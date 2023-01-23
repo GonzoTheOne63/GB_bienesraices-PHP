@@ -1,6 +1,6 @@
 <?php
-    $inicio = false;
-    include './includes/templates/header.php'; 
+require 'includes/funciones.php';
+incluirTemplate('header');
 ?>
 
 <main class="contenedor seccion">
@@ -26,7 +26,8 @@
                         <p>3</p>
                     </li>
                     <li>
-                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento">
+                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg"
+                            alt="icono estacionamiento">
                         <p>3</p>
                     </li>
                     <li>
@@ -61,7 +62,8 @@
                         <p>3</p>
                     </li>
                     <li>
-                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento">
+                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg"
+                            alt="icono estacionamiento">
                         <p>3</p>
                     </li>
                     <li>
@@ -96,7 +98,8 @@
                         <p>3</p>
                     </li>
                     <li>
-                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento">
+                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg"
+                            alt="icono estacionamiento">
                         <p>3</p>
                     </li>
                     <li>
@@ -131,7 +134,8 @@
                         <p>3</p>
                     </li>
                     <li>
-                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento">
+                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg"
+                            alt="icono estacionamiento">
                         <p>3</p>
                     </li>
                     <li>
@@ -166,7 +170,8 @@
                         <p>3</p>
                     </li>
                     <li>
-                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento">
+                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg"
+                            alt="icono estacionamiento">
                         <p>3</p>
                     </li>
                     <li>
@@ -201,7 +206,8 @@
                         <p>3</p>
                     </li>
                     <li>
-                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento">
+                        <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg"
+                            alt="icono estacionamiento">
                         <p>3</p>
                     </li>
                     <li>
@@ -223,5 +229,5 @@
 </main>
 
 <?php
-    incluirTemplate("footer");
+incluirTemplate("footer");
 ?>

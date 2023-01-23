@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$imagen['name'] || $imagen['error']) {
         $errores[] = "La imagen es obligatoria";
     }
-
+    
     // {VALIDAR} por tamaño (1 Mb máximo)
     $medida = 1000 * 1000;
     if ($imagen['size'] > $medida) {
@@ -140,48 +140,54 @@ incluirTemplate('header');
     <a href="/admin/admin.php" class="boton boton-verde">Clic Volver</a>
 
     <?php foreach ($errores as $error) : ?>
-        <!-- foreach se ejecuta una vez por cada elemento -->
-        <div class="alerta error">
-            <?php echo $error; ?>
-        </div>
+    <!-- foreach se ejecuta una vez por cada elemento -->
+    <div class="alerta error">
+        <?php echo $error; ?>
+    </div>
     <?php endforeach; ?>
     <form action="/admin/propiedades/crear.php" class="formulario" method="POST" enctype="multipart/form-data">
         <!--  -->
         <fieldset>
             <legend>Información General</legend>
             <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" placeholder="Título de la Propiedad" value="<?php echo $titulo; ?>">
+            <input type="text" id="titulo" name="titulo" placeholder="Título de la Propiedad"
+                value="<?php echo $titulo; ?>">
 
             <label for="precio">Precio:</label>
-            <input type="number" id="precio" name="precio" placeholder="Precio de la Propiedad" value="<?php echo (number_format($precio, 2, ',', ',')); ?>">
+            <input type="number" id="precio" name="precio" placeholder="Precio de la Propiedad"
+                value="<?php echo (number_format($precio, 2, ',', ',')); ?>">
 
-            <label for="imagen">Imagen:</label el>
+            <label for="imagen">Imagen:</label>
             <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
 
             <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" name="descripcion" placeholder="Tus Comentarios son de gran Valor"><?php echo $descripcion; ?></textarea>
+            <textarea id="descripcion" name="descripcion"
+                placeholder="Tus Comentarios son de gran Valor"><?php echo $descripcion; ?></textarea>
         </fieldset>
 
         <fieldset>
             <legend>Información de la Propiedad</legend>
             <label for="habitaciones">Habitaciones:</label>
-            <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej. 3" value="<?php echo $habitaciones; ?>">
+            <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej. 3"
+                value="<?php echo $habitaciones; ?>">
 
             <label for="wc">Baños:</label>
             <input type="number" id="wc" name="wc" placeholder="Ej. 3" min="1" max="10" value="<?php echo $wc; ?>">
 
             <label for="estacionamiento">Estacionamientos:</label>
-            <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej. 3" min="1" max="10" value="<?php echo $estacionamiento; ?>">
+            <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej. 3" min="1" max="10"
+                value="<?php echo $estacionamiento; ?>">
         </fieldset>
 
         <fieldset>
             <legend>Vendedor</legend>
 
             <select name="vendedor">
-                <option value="">-- Seleccione-- </option>
+                <option value="">-- Seleccione --</option>
                 <?php while ($vendedor = mysqli_fetch_assoc($resultado)) : ?>
-                    <option <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?> value="<?php echo $vendedor['id']; ?>">
-                        <?php echo $vendedor['nombre'] . ' ' . $vendedor['apellido']; ?></option>
+                <option <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?>
+                    value="<?php echo $vendedor['id']; ?>">
+                    <?php echo $vendedor['nombre'] . ' ' . $vendedor['apellido']; ?></option>
                 <?php endwhile; ?>
             </select>
         </fieldset>
