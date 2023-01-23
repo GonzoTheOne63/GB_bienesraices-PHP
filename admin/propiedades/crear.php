@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $creado = date('Y,m,d');
 
     // {ASIGNAR} "files" hacia una variable
-    $imagen = $_FILES['imagen'];
+    $imagen = $_FILES['imagen']; 
     // echo "<pre>";
     // var_dump($imagen['name']);
     // echo "</pre>";    
