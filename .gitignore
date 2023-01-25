@@ -3,3 +3,5 @@
 node_modules/
 package-lock.json
 /info.php
+/package-lock.json
+/node_modules

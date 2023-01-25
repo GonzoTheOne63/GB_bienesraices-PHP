@@ -48,10 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $wc = mysqli_real_escape_string($db, $_POST['wc']);
     $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento']);
     $vendedorId = mysqli_real_escape_string($db, $_POST['vendedor']);
-    $creado = date('Y,m,d');
+    $creado = date('Y/m/d');
 
     // {ASIGNAR} "files" hacia una variable
-    $imagen = $_FILES['imagen']; 
+    $imagen = $_FILES['imagen'];
     // echo "<pre>";
     // var_dump($imagen['name']);
     // echo "</pre>";    
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // exit;
 
     if (!$titulo) {
-        $errores[] = "Añade el título de tu propiedad";
+        $errores[] = "Dale un título a tu propiedad";
     }
     if (!$precio) {
         $errores[] = "Falta el precio";
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errores[] = "El número de baños es obligatorio";
     }
     if (!$estacionamiento) {
-        $errores[] = "El número de estacionamientos es obligatorio";
+        $errores[] = "La cantidad de estacionamientos es obligatorio";
     }
     if (!$vendedorId) {
         $errores[] = "Elige a tu vendedor";
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$imagen['name'] || $imagen['error']) {
         $errores[] = "La imagen es obligatoria";
     }
-    
+
     // {VALIDAR} por tamaño (1 Mb máximo)
     $medida = 1000 * 1000;
     if ($imagen['size'] > $medida) {
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     /* {REVISAR} que el array de errores esté vacio, no tenga errores */
     if (empty($errores)) {
-        /* SUBIDA DE aRCHIVOS */
+        /* SUBIDA DE ARCHIVOS */
         /* CREAR la carpeta */
         $carpetaImagenes = '../../imagenes/';
 
@@ -108,19 +108,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mkdir($carpetaImagenes);
         }
 
-        /* {GENERAR} un nombre único */
-        $nombreImagen = md5(uniqid(rand(), true)) . strrchr($_FILES['imagen']['name'], '.');
+        /* GENERAR UN NOMBRE ÚNICO */
+        $nombreImagen = md5(uniqid(rand(), true)) . strrchr($_FILES['imagen']['name'], '.');  // sttchr() trae la extensión de la imagen 
         // var_dump($nombreImagen);
 
-        /* SUBIR la imagen */
+        /* SUBIR LA IMAGEN */
         move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
         // exit;
 
-        // GENERANDO variable para la inserción a la BD
+        // GENERANDO VARIABLE PARA LA INSERCIÓN A LA BASE DE DATOS
         $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedorId' ) ";
 
         // echo $query;  // GENERA el query que puedo insertar a tableplus
-        // GUARDAR en la BD
+        // GUARDAR EN LA BASE DE DATOS
         $resultado = mysqli_query($db, $query);
 
         if ($resultado) {
@@ -146,7 +146,6 @@ incluirTemplate('header');
     </div>
     <?php endforeach; ?>
     <form action="/admin/propiedades/crear.php" class="formulario" method="POST" enctype="multipart/form-data">
-        <!--  -->
         <fieldset>
             <legend>Información General</legend>
             <label for="titulo">Título:</label>
@@ -155,20 +154,20 @@ incluirTemplate('header');
 
             <label for="precio">Precio:</label>
             <input type="number" id="precio" name="precio" placeholder="Precio de la Propiedad"
-                value="<?php echo (number_format($precio, 2, ',', ',')); ?>">
+                value="<?php echo $precio; ?> ">
 
             <label for="imagen">Imagen:</label>
             <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
 
-            <label for="descripcion">Descripción:</label>
+            <label for=" descripcion">Descripción:</label>
             <textarea id="descripcion" name="descripcion"
                 placeholder="Tus Comentarios son de gran Valor"><?php echo $descripcion; ?></textarea>
         </fieldset>
 
         <fieldset>
             <legend>Información de la Propiedad</legend>
-            <label for="habitaciones">Habitaciones:</label>
-            <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej. 3"
+            <label for=" habitaciones">Habitaciones:</label>
+            <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej. 3" min="1" max="10"
                 value="<?php echo $habitaciones; ?>">
 
             <label for="wc">Baños:</label>
@@ -184,10 +183,10 @@ incluirTemplate('header');
 
             <select name="vendedor">
                 <option value="">-- Seleccione --</option>
-                <?php while ($vendedor = mysqli_fetch_assoc($resultado)) : ?>
+                <?php while($vendedor = mysqli_fetch_assoc($resultado)) : ?>
                 <option <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?>
                     value="<?php echo $vendedor['id']; ?>">
-                    <?php echo $vendedor['nombre'] . ' ' . $vendedor['apellido']; ?></option>
+                    <?php echo $vendedor['nombre'] . " " . $vendedor['apellido']; ?></option>
                 <?php endwhile; ?>
             </select>
         </fieldset>

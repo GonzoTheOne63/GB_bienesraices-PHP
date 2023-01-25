@@ -1,9 +1,10 @@
 <?php
 
-function conectarDB(): mysqli
+function conectarDB() : mysqli
 {
   $db = mysqli_connect('localhost', 'root', '', 'bienes_raices');
   mysqli_set_charset($db, 'utf8');
+  
   if (!$db) {
     echo "Error de conexión";
     exit;
