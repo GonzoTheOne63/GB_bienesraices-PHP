@@ -46,7 +46,7 @@ incluirTemplate('header');
                 <td><?php echo $propiedad['id']; ?></td>
                 <td><?php echo $propiedad['titulo']; ?></td>
                 <td><img src="/imagenes/<?php echo $propiedad['imagen']; ?>" class="imagen-tabla"></td>
-                <td>$<?php echo number_format($propiedad['precio']); ?>
+                <td class="precio">$<?php echo number_format($propiedad['precio']); ?>
                 <td>
                     <a href="#" class="boton-rojo-block">Eliminar</a>
                     <a href="#" class="boton-amarillo-block">Actualizar</a>

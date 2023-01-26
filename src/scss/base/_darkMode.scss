@@ -14,10 +14,7 @@
         background-color: $grisOscuro;
         border: 1px solid $grisOscuro;
 
-        .precio {
-            color: $verde;
-            font-weight: $bold;
-        }
+        
         .icono {
             filter: invert(100%);
         }
@@ -44,14 +41,17 @@
         }
     }
   table.propiedades {
-    .costo{
-        color: $verde;
-        font-weight: $bold;
-    }
+    .precio {
+    color: $verde;
+    font-weight: $bold;
+    font-size: 3rem;
+    text-align: center;
+}
         tbody {
             td {
                 color: $blanco;
             }
         }
     }
+    
 }
