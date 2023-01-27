@@ -16,7 +16,6 @@ $db = conectarDB();
 
 // OBTENER los datos de la propiedad
 $consulta = "SELECT * FROM propiedades WHERE id = ${id}";
-// echo($consulta);
 $resultado = mysqli_query($db, $consulta);
 $propiedad = mysqli_fetch_assoc($resultado);
 
@@ -52,12 +51,13 @@ $estacionamiento = $propiedad['estacionamiento'];
 $vendedorId = $propiedad['vendedorId'];
 $imagenPropiedad = $propiedad['imagen'];
 
+
 /* {EJECUTAR} el código después de que el usuario envía el formulario */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    echo "<pre>";
-    var_dump($_POST); // SEGURO, no muestra los datos
-    echo "</pre>";
+    // echo "<pre>";
+    // var_dump($_POST); // SEGURO, no muestra los datos
+    // echo "</pre>";
 
     // exit;
 
@@ -122,24 +122,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     /* {REVISAR} que el array de errores esté vacio, no tenga errores */
     if (empty($errores)) {
-        /* SUBIDA DE ARCHIVOS */
         /* CREAR la carpeta */
-        // $carpetaImagenes = '../../imagenes/';
+        $carpetaImagenes = '../../imagenes/';
 
-        // if (!is_dir($carpetaImagenes)) {
-        //     mkdir($carpetaImagenes);
-        // }
+        if (!is_dir($carpetaImagenes)) {
+            mkdir($carpetaImagenes);
+        }
+        /* SUBIDA DE ARCHIVOS */
+        if ($imagen['name']) {
+            // ELIMINAR la imagen anterior
+            unlink($carpetaImagenes . $propiedad['imagen']);
+        }
+
+
 
         // /* GENERAR UN NOMBRE ÚNICO */
-        // $nombreImagen = md5(uniqid(rand(), true)) . strrchr($_FILES['imagen']['name'], '.');  // sttchr() trae la extensión de la imagen 
+        $nombreImagen = md5(uniqid(rand(), true)) . strrchr($_FILES['imagen']['name'], '.');  // sttchr() trae la extensión de la imagen 
         // // var_dump($nombreImagen);
 
         // /* SUBIR LA IMAGEN */
-        // move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
         // exit;
 
         // GENERANDO VARIABLE PARA LA INSERCIÓN A LA BASE DE DATOS
-        $query = " UPDATE propiedades SET titulo = '${titulo}', precio = '${precio}', descripcion = '${descripcion}', habitaciones = ${habitaciones}, wc = ${wc}, estacionamiento = ${estacionamiento}, vendedorId = ${vendedorId} WHERE id = ${id} ";
+        $query = " UPDATE propiedades SET titulo = '${titulo}', precio = ${precio}, imagen = '${nombreImagen}', descripcion = '${descripcion}', habitaciones = ${habitaciones}, wc = ${wc}, estacionamiento = ${estacionamiento}, vendedorId = ${vendedorId} WHERE id = ${id} ";
 
         // echo $query;  // GENERA el query que puedo insertar a tableplus
 
@@ -170,6 +176,7 @@ incluirTemplate('header');
     </div>
     <?php endforeach; ?>
     <form class="formulario" method="POST" enctype="multipart/form-data">
+        <!-- NO requiere el action -->
         <fieldset>
             <legend>Información General</legend>
             <label for="titulo">Título:</label>
