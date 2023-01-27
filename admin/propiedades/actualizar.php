@@ -2,17 +2,27 @@
 // VALIDACIÓN a la URL por id válido
 $id = $_GET['id'];
 $id = filter_var($id,  FILTER_VALIDATE_INT);
-if(!$id) {  
+if (!$id) {
     header('Location: /admin/admin.php');
 }
 
-echo "<pre>";
-var_dump($id);
-echo "</pre>";
+// echo "<pre>";
+// var_dump($id);
+// echo "</pre>";
 
 // BASE de datos
 require '../../includes/config/database.php';
 $db = conectarDB();
+
+// OBTENER los datos de la propiedad
+$consulta = "SELECT * FROM propiedades WHERE id = ${id}";
+// echo($consulta);
+$resultado = mysqli_query($db, $consulta);
+$propiedad = mysqli_fetch_assoc($resultado);
+
+echo "<pre>";
+var_dump($propiedad);
+echo "</pre>";
 
 // CONSULTAR y obtener vendedores
 $consulta = "SELECT * FROM vendedores";
@@ -33,13 +43,14 @@ $resultado = mysqli_query($db, $consulta);
 /* {VALIDADOR} array con mensajes de errores*/
 $errores = [];
 
-$titulo = '';
-$precio = '';
-$descripcion = '';
-$habitaciones = '';
-$wc = '';
-$estacionamiento = '';
-$vendedorId = '';
+$titulo = $propiedad['titulo'];
+$precio = $propiedad['precio'];
+$descripcion = $propiedad['descripcion'];
+$habitaciones = $propiedad['habitaciones'];
+$wc = $propiedad['wc'];
+$estacionamiento = $propiedad['estacionamiento'];
+$vendedorId = $propiedad['vendedorId'];
+$imagenPropiedad = $propiedad['imagen'];
 
 /* {EJECUTAR} el código después de que el usuario envía el formulario */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -164,11 +175,13 @@ incluirTemplate('header');
                 value="<?php echo $titulo; ?>">
 
             <label for="precio">Precio:</label>
-            <input type="number" id="precio" name="precio" placeholder="Precio de la Propiedad"
+            <input type="number" id="precio" name="precio" placeholder="Precio de su propiedad"
                 value="<?php echo $precio; ?> ">
 
             <label for="imagen">Imagen:</label>
             <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
+
+            <img src="/imagenes/<?php echo $imagenPropiedad; ?>" class="imagen-small">
 
             <label for=" descripcion">Descripción:</label>
             <textarea id="descripcion" name="descripcion"
