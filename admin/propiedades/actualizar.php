@@ -20,9 +20,9 @@ $consulta = "SELECT * FROM propiedades WHERE id = ${id}";
 $resultado = mysqli_query($db, $consulta);
 $propiedad = mysqli_fetch_assoc($resultado);
 
-echo "<pre>";
-var_dump($propiedad);
-echo "</pre>";
+// echo "<pre>";
+// var_dump($propiedad);
+// echo "</pre>";
 
 // CONSULTAR y obtener vendedores
 $consulta = "SELECT * FROM vendedores";
@@ -54,9 +54,12 @@ $imagenPropiedad = $propiedad['imagen'];
 
 /* {EJECUTAR} el código después de que el usuario envía el formulario */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // echo "<pre>";
-    // var_dump($_POST); // SEGURO, no muestra los datos
-    // echo "</pre>";
+
+    echo "<pre>";
+    var_dump($_POST); // SEGURO, no muestra los datos
+    echo "</pre>";
+
+    // exit;
 
     // echo "<pre>";
     // var_dump($_FILES); // SEGURO, no muestra los datos
@@ -104,9 +107,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$vendedorId) {
         $errores[] = "Elige a tu vendedor";
     }
-    if (!$imagen['name'] || $imagen['error']) {
-        $errores[] = "La imagen es obligatoria";
-    }
 
     // {VALIDAR} por tamaño (1 Mb máximo)
     $medida = 1000 * 1000;
@@ -124,30 +124,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errores)) {
         /* SUBIDA DE ARCHIVOS */
         /* CREAR la carpeta */
-        $carpetaImagenes = '../../imagenes/';
+        // $carpetaImagenes = '../../imagenes/';
 
-        if (!is_dir($carpetaImagenes)) {
-            mkdir($carpetaImagenes);
-        }
+        // if (!is_dir($carpetaImagenes)) {
+        //     mkdir($carpetaImagenes);
+        // }
 
-        /* GENERAR UN NOMBRE ÚNICO */
-        $nombreImagen = md5(uniqid(rand(), true)) . strrchr($_FILES['imagen']['name'], '.');  // sttchr() trae la extensión de la imagen 
-        // var_dump($nombreImagen);
+        // /* GENERAR UN NOMBRE ÚNICO */
+        // $nombreImagen = md5(uniqid(rand(), true)) . strrchr($_FILES['imagen']['name'], '.');  // sttchr() trae la extensión de la imagen 
+        // // var_dump($nombreImagen);
 
-        /* SUBIR LA IMAGEN */
-        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+        // /* SUBIR LA IMAGEN */
+        // move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
         // exit;
 
         // GENERANDO VARIABLE PARA LA INSERCIÓN A LA BASE DE DATOS
-        $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedorId' ) ";
+        $query = " UPDATE propiedades SET titulo = '${titulo}', precio = '${precio}', descripcion = '${descripcion}', habitaciones = ${habitaciones}, wc = ${wc}, estacionamiento = ${estacionamiento}, vendedorId = ${vendedorId} WHERE id = ${id} ";
 
         // echo $query;  // GENERA el query que puedo insertar a tableplus
+
+        // exit;
         // GUARDAR EN LA BASE DE DATOS
         $resultado = mysqli_query($db, $query);
 
         if ($resultado) {
             // Redireccionar al usuario.
-            header('Location: ../admin.php?resultado=1');
+            header('Location: ../admin.php?resultado=2');
         }
     }
 }
@@ -167,7 +169,7 @@ incluirTemplate('header');
         <?php echo $error; ?>
     </div>
     <?php endforeach; ?>
-    <form action="/admin/propiedades/crear.php" class="formulario" method="POST" enctype="multipart/form-data">
+    <form class="formulario" method="POST" enctype="multipart/form-data">
         <fieldset>
             <legend>Información General</legend>
             <label for="titulo">Título:</label>
