@@ -17,3 +17,5 @@ GENERAMOS el "ROUTING" = como se conectan las diferentes rutas o url´s del proy
 RECORDAR que el método GET muestra información en la barra de dirección, mientras que el método POST no, ademas de ser la mejor oopción para guardar los datos al servidor y a la BD
 
 IMPORTANTE: No se debe dejar el archivo info.php (<?php phpinfo();)
+
+"CREAR" y "ACTUALIZAR" son muy similares, actualizar debe enviar en automático los datos nuevos al servidor
