@@ -132,16 +132,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($imagen['name']) {
             // ELIMINAR la imagen anterior
             unlink($carpetaImagenes . $propiedad['imagen']);
+            // /* GENERAR UN NOMBRE ÚNICO */
+            $nombreImagen = md5(uniqid(rand(), true)) . strrchr($_FILES['imagen']['name'], '.');  // sttchr() trae la extensión de la imagen            
+
+            // /* SUBIR LA IMAGEN */
+            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+        } else {
+            $nombreImagen = $propiedad['imagen'];
         }
-
-
-
-        // /* GENERAR UN NOMBRE ÚNICO */
-        $nombreImagen = md5(uniqid(rand(), true)) . strrchr($_FILES['imagen']['name'], '.');  // sttchr() trae la extensión de la imagen 
-        // // var_dump($nombreImagen);
-
-        // /* SUBIR LA IMAGEN */
-        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+        
         // exit;
 
         // GENERANDO VARIABLE PARA LA INSERCIÓN A LA BASE DE DATOS
@@ -175,8 +174,7 @@ incluirTemplate('header');
         <?php echo $error; ?>
     </div>
     <?php endforeach; ?>
-    <form class="formulario" method="POST" enctype="multipart/form-data">
-        <!-- NO requiere el action -->
+    <form class="formulario" method="POST" enctype="multipart/form-data"> <!-- NO requiere el action -->
         <fieldset>
             <legend>Información General</legend>
             <label for="titulo">Título:</label>
@@ -185,7 +183,7 @@ incluirTemplate('header');
 
             <label for="precio">Precio:</label>
             <input type="number" id="precio" name="precio" placeholder="Precio de su propiedad"
-                value="<?php echo $precio; ?> ">
+                value="<?php echo $precio; ?>">
 
             <label for="imagen">Imagen:</label>
             <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
