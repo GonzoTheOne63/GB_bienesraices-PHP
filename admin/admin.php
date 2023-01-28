@@ -1,4 +1,5 @@
 <?php
+
 /*  {IMPORTAR} la conexión */
 require '../includes/config/database.php';
 $db = conectarDB();
@@ -14,7 +15,26 @@ $resultadoConsulta = mysqli_query($db, $query);
 // echo "</pre>";
 /* {MUESTRA} mensaje condicional */
 $resultado = $_GET['resultado'] ?? null;
-// exit;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { /* PARA evitar el undefined en mi variable */
+    $id = $_POST['id'];
+    $id = filter_var($id, FILTER_VALIDATE_INT);
+
+    if ($id) {
+        /* ELIMINA el archivo (imagen)*/
+        $query = "SELECT imagen FROM propiedades WHERE id = ${id}";
+        $resultado = mysqli_query($db, $query);
+        $propiedad = mysqli_fetch_assoc($resultado);
+        unlink('../imagenes/' . $propiedad['imagen']);
+        
+        /* ELIMINA la propiedad */
+        $query = "DELETE FROM propiedades WHERE id = ${id}";
+        $resultado = mysqli_query($db, $query);
+        if ($resultado) {
+            header('Location: /admin/admin.php?resultado=3');
+        }
+    }
+}
 
 /* {INCLUYE} en TEMPLATE */
 require '../includes/funciones.php';
@@ -24,9 +44,11 @@ incluirTemplate('header');
 <main class="contenedor seccion">
     <h1>Administrador de Bienes Raices</h1>
     <?php if (intval($resultado) === 1) : ?>
-    <p class="alerta exito">Anuncio Creado Correctamente</p>
-    <?php elseif(intval($resultado) === 2 ): ?>
-    <p class="alerta exito">Anuncio Actualizado Correctamente</p>
+        <p class="alerta exito">Anuncio Creado Correctamente</p>
+    <?php elseif (intval($resultado) === 2) : ?>
+        <p class="alerta exito">Anuncio Actualizado Correctamente</p>
+    <?php elseif (intval($resultado) === 3) : ?>
+        <p class="alerta exito">Anuncio Eliminado Correctamente</p>
     <?php endif; ?>
 
     <a href="/admin/propiedades/crear.php" class="boton boton-verde">Nueva
@@ -45,18 +67,22 @@ incluirTemplate('header');
         <tbody>
             <!-- {MOSTRAR} los resultados  -->
             <?php while ($propiedad = mysqli_fetch_assoc($resultadoConsulta)) : ?>
-            <!-- ITERAR para traer los resultados -->
-            <tr>
-                <td><?php echo $propiedad['id']; ?></td>
-                <td><?php echo $propiedad['titulo']; ?></td>
-                <td><img src="/imagenes/<?php echo $propiedad['imagen']; ?>" class="imagen-tabla"></td>
-                <td class="precio">$<?php echo number_format($propiedad['precio']); ?>
-                <td>
-                    <a href="#" class="boton-rojo-block">Eliminar</a>
-                    <a href="/admin/propiedades/actualizar.php?id=<?php echo $propiedad['id']; ?>"
-                        class="boton-amarillo-block">Actualizar</a>
-                </td>
-            </tr>
+                <!-- ITERAR para traer los resultados -->
+                <tr>
+                    <td><?php echo $propiedad['id']; ?></td>
+                    <td><?php echo $propiedad['titulo']; ?></td>
+                    <td><img src="/imagenes/<?php echo $propiedad['imagen']; ?>" class="imagen-tabla"></td>
+                    <td class="precio">$<?php echo number_format($propiedad['precio']); ?>
+                    <td>
+                        <form method="POST" class="w-100">
+                            <!-- INPUT oculto -->
+                            <input type="hidden" name="id" value="<?php echo $propiedad['id']; ?>">
+                            <input type="submit" class="boton-rojo-block" value="Eliminar">
+                        </form>
+
+                        <a href="/admin/propiedades/actualizar.php?id=<?php echo $propiedad['id']; ?>" class="boton-amarillo-block">Actualizar</a>
+                    </td>
+                </tr>
             <?php endwhile; ?>
         </tbody>
     </table>
