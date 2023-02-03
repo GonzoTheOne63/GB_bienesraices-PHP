@@ -72,7 +72,7 @@ incluirTemplate('header');
                     <td><?php echo $propiedad['id']; ?></td>
                     <td><?php echo $propiedad['titulo']; ?></td>
                     <td><img src="/imagenes/<?php echo $propiedad['imagen']; ?>" class="imagen-tabla"></td>
-                    <td class="precio">$<?php echo number_format($propiedad['precio']); ?>
+                    <td class="precio">$<?php echo number_format($propiedad['precio']); ?>.00
                     <td>
                         <form method="POST" class="w-100">
                             <!-- INPUT oculto -->

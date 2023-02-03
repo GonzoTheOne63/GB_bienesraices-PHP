@@ -47,3 +47,10 @@ function navegacionResponsive() {
 
 //   navegacion.classList.toggle("mostrar"); // MODO de codigo avanzado
 }
+    //Eliminar texto de confirmación de CRUD en admin/index.php
+        setTimeout(function(){        
+            const mensajeConfirm = document.querySelector('.alerta.exito');
+            if(mensajeConfirm) {
+            const padre = mensajeConfirm.parentElement;
+            padre.removeChild(mensajeConfirm);}
+        }, 3500);
