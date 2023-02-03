@@ -19,3 +19,5 @@ RECORDAR que el método GET muestra información en la barra de dirección, mien
 IMPORTANTE: No se debe dejar el archivo info.php (<?php phpinfo();)
 
 "CREAR" y "ACTUALIZAR" son muy similares, actualizar debe enviar en automático los datos nuevos al servidor
+
+TODOS los passwords hasheados deben tener una extensión de 60 caracteres

@@ -32,9 +32,10 @@
                     </nav>
                 </div>
             </div> <!-- Barra -->
+            <?php echo $inicio ? "<h1>Venta de Casas y Departamentos Exclusivos de Lujo</h1>" : ''; ?> <!-- EXPRESIÓN Ternaria -->
 
-            <?php if ($inicio) { ?>
+            <!-- <?php if ($inicio) { ?>
                 <h1>Venta de Casas y Departamentos Exclusivos de Lujo</h1>
-            <?php } ?>
+            <?php } ?> --> <!-- EXPRESIÓN REGULAR -->
         </div>
     </header>
