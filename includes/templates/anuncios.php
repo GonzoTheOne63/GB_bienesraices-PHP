@@ -1,54 +1,51 @@
-<?php
-// Importar la conexión
-require 'includes/config/database.php';
-$db = conectarDB();
+ <?php
+    // IMPORTAR la conexión a la DB
+    require __DIR__ . '/../config/database.php';
+    $db = conectarDB();
+    // CONSUTAR la base de datos
+    $query = "SELECT * FROM propiedades LIMIT ${limite}";
+    // OBTENER los resultados
+    $resultado = mysqli_query($db, $query);
 
-// Consultar
-$query = "SELECT * FROM  propiedades LIMIT ${limite}";
+    ?>
 
-// Obtener el resultado
-$resultado = mysqli_query($db, $query);
+ <div class="contenedor-anuncios">
+     <?php while ($propiedad = mysqli_fetch_assoc($resultado)) : ?>
+         <div class="anuncio">
 
-?>
+             <img loading="lazy" src="/imagenes/<?php echo $propiedad['imagen']; ?>" alt="anuncio" />
 
-<div class="contenedor-anuncios">
-  <?php while ($propiedad = mysqli_fetch_assoc($resultado)) : ?>
-    <div class="anuncio">
+             <div class="contenido-anuncio">
+                 <h3><?php echo limitar_cadena($propiedad['titulo'], 25, "..."); ?></h3>
+                 <p>
+                     <?php echo limitar_cadena($propiedad['descripcion'], 75, "..."); ?>
+                 </p>
+                 <p class="precio">$<?php echo number_format($propiedad['precio']); ?>.00</p>
 
-      <img loading="lazy" class="vista" src="/imagenes/<?php echo $propiedad['imagen']; ?>" alt="anuncio">
-      </picture>
+                 <ul class="iconos-caracteristicas">
+                     <li>
+                         <img class="icono" loading="lazy" src="build/img/icono_wc.svg" alt="icono wc" />
+                         <p><?php echo $propiedad['wc']; ?></p>
+                     </li>
+                     <li>
+                         <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento" />
+                         <p><?php echo $propiedad['estacionamiento']; ?></p>
+                     </li>
+                     <li>
+                         <img class="icono" loading="lazy" src="build/img/icono_dormitorio.svg" alt="icono habitaciones" />
+                         <p><?php echo $propiedad['habitaciones']; ?></p>
+                     </li>
+                 </ul>
 
-      <div class="contenido-anuncio contenido-centrado">
-        <h3><?php echo limitar_cadena($propiedad['titulo'], 15, "..."); ?></h3>
-        <p class="parrafo"><?php echo limitar_cadena($propiedad['descripcion'], 55, "..."); ?></p>
-        <p class="precio">$<?php echo $propiedad['precio']; ?></p>
+                 <a href="anuncio.php?id=<?php echo $propiedad['id']; ?>" class="boton-amarillo-block">
+                     Ver Propiedad
+                 </a>
+             </div><!--.contenido-anuncio-->
+         </div><!--anuncio-->
+     <?php endwhile; ?>
+ </div><!-- .contenedor-anuncios -->
 
-        <ul class="iconos-caracteristicas">
-          <li>
-            <img class="icono" loading="lazy" src="build/img/icono_wc.svg" alt="icono wc">
-            <p><?php echo $propiedad['wc']; ?></p>
-          </li>
-          <li>
-            <img class="icono" loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento">
-            <p><?php echo $propiedad['estacionamiento']; ?></p>
-          </li>
-          <li>
-            <img class="icono" loading="lazy" src="build/img/icono_dormitorio.svg" alt="icono habitaciones">
-            <p><?php echo $propiedad['habitaciones']; ?></p>
-          </li>
-        </ul>
-
-        <a href="anuncio.php?id=<?php echo $propiedad['id']; ?>" class="boton-amarillo-block">
-          Ver Propiedad
-        </a>
-      </div>
-      <!--.contenido-anuncio-->
-    </div>
-  <?php endwhile; ?>
-</div>
-<!-- anuncio -->
-<?php
-// CERRAR LA CONEXIÓN A DB
-mysqli_close($db);
-
-?>
+ <?php
+    // CERRAR la conexión
+    mysqli_close($db);
+    ?>
