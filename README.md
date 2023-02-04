@@ -21,3 +21,5 @@ IMPORTANTE: No se debe dejar el archivo info.php (<?php phpinfo();)
 "CREAR" y "ACTUALIZAR" son muy similares, actualizar debe enviar en automático los datos nuevos al servidor
 
 TODOS los passwords hasheados deben tener una extensión de 60 caracteres
+
+IMPORTANTE, validar tanto en frontend como en backend
