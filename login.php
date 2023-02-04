@@ -20,7 +20,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errores)) {
-        
+        // REVISAR que el usuario exista
+        $query = "SELECT  * FROM usuarios WHERE email = '${email}'";
+        $resultado = mysqli_query($db, $query);
+
+        if ($resultado->num_rows) {
+            // REVISAR que el password sea correcto
+            $usuario = mysqli_fetch_assoc($resultado);
+
+            $auth = password_verify($password, $usuario['password']);
+
+            if($auth) {
+                // USUARIO autenticado
+                session_start();
+                // LLENAR el arreglo de la sesion
+                $_SESSION['usuario'] = $usuario['email'];
+                $_SESSION['login'] = true;
+
+                // echo "<pre>";
+                // var_dump($_SESSION);
+                // echo "</pre>";
+
+            } else {
+                $errores[] = 'El password es incorrecto';
+            }
+        } else {
+            $errores[] = 'El usuario no existe';
+        }
+    
     }
 }
 
@@ -53,6 +80,7 @@ incluirTemplate('header');
     </form>
 </main>
 
-<?php
+<?php 
+mysqli_close($db);
 incluirTemplate("footer");
 ?>
