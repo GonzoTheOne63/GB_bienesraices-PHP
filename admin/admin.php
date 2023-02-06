@@ -1,13 +1,8 @@
 <?php
-session_start();
+require '../includes/funciones.php';
+$auth = estaAutenticado();
 
-// echo "<pre>";
-// var_dump($_SESSION);
-// echo "</pre>";
-
-$auth = $_SESSION['login'];
-
-if(!$auth) {
+if(!$auth){
     header('Location: /');
 }
 
@@ -23,7 +18,7 @@ $resultadoConsulta = mysqli_query($db, $query);
 
 // echo "<pre>";
 // var_dump($_GET);
-// echo "</pre>";
+// echo "</pre>"; 
 /* {MUESTRA} mensaje condicional */
 $resultado = $_GET['resultado'] ?? null;
 
@@ -48,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { /* PARA evitar el undefined en mi v
 }
 
 /* {INCLUYE} en TEMPLATE */
-require '../includes/funciones.php';
 incluirTemplate('header');
 ?>
 
